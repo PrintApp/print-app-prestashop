@@ -2,7 +2,7 @@
 <module>
     <name>print_dot_app</name>
     <displayName><![CDATA[Print.App]]></displayName>
-    <version><![CDATA[1.1.0]]></version>
+    <version><![CDATA[1.2.1]]></version>
     <description><![CDATA[A Web2Print product customization module]]></description>
     <author><![CDATA[Print.App]]></author>
     <tab><![CDATA[front_office_features]]></tab>

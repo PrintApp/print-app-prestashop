@@ -14,8 +14,8 @@
 *
 * DISCLAIMER
 *
-* Do not edit or add to this file if you wish to upgrade PitchPrint to newer
-* versions in the future. If you wish to customize PitchPrint for your
+* Do not edit or add to this file if you wish to upgrade Print.App to newer
+* versions in the future. If you wish to customize Print.App for your
 * needs please refer to http://print.app for more information.
 *
 *  @author    Print.App <hello@print.app>
@@ -33,6 +33,7 @@ if (!defined('_PS_VERSION_'))
     define('PRINT_DOT_APP_SECRET_KEY', 'print_dot_app_SECRET_KEY');
 	define('PRINT_DOT_APP_CLIENT_RUN_JS', 'https://run.print.app');
 	define('PRINT_DOT_APP_CLIENT_JS', 'https://editor.print.app/js/client.js');
+    define('PRINT_DOT_APP_DESIGNS', 'print_dot_app_DESIGNS');
 
     
 class Print_Dot_App extends Module
@@ -40,7 +41,7 @@ class Print_Dot_App extends Module
     public function __construct() {
         $this->name = 'print_dot_app';
         $this->tab = 'front_office_features';
-        $this->version = '1.2.0';
+        $this->version = '1.2.1';
         $this->author = 'Print.App';
         $this->need_instance = 1;
         $this->ps_versions_compliancy = array('min' => '1.7.1.0', 'max' => _PS_VERSION_);
@@ -167,8 +168,10 @@ class Print_Dot_App extends Module
     
     private function createCustomizationField($id_product)
     {
-        $p_designs = unserialize(Configuration::get(PRINT_DOT_APP_DESIGNS));
-        if (!isset($p_designs[$id_product]) && empty($p_designs[$id_product])) return null;
+        $raw_designs = Configuration::get(PRINT_DOT_APP_DESIGNS);
+        if (empty($raw_designs)) return null;
+        $p_designs = unserialize($raw_designs);
+        if (!is_array($p_designs) || !isset($p_designs[$id_product]) || empty($p_designs[$id_product])) return null;
         $arr = explode(':', $p_designs[$id_product]);
 
 		Db::getInstance()->insert('customization_field', array('id_product' => $id_product, 'type' => 1, 'required' => $arr[2], 'is_module' => 1));
@@ -177,7 +180,8 @@ class Print_Dot_App extends Module
 		if (!empty($custmz_field)) {
             $languages = Language::getLanguages(false);
             foreach ($languages as $lang) {
-				Db::getInstance()->execute("INSERT INTO `" . _DB_PREFIX_ . "customization_field_lang` (`id_customization_field`, `id_lang`, `name`) VALUES ('{$custmz_field}', '{$lang['id_lang']}', '" . PRINT_DOT_APP_ID_CUSTOMIZATION_NAME . "') ON DUPLICATE KEY UPDATE `id_lang` = '{$lang['id_lang']}', `name` = '" . PRINT_DOT_APP_ID_CUSTOMIZATION_NAME . "'");
+                $id_lang = (int)$lang['id_lang'];
+				Db::getInstance()->execute("INSERT INTO `" . _DB_PREFIX_ . "customization_field_lang` (`id_customization_field`, `id_lang`, `name`) VALUES ('{$custmz_field}', '{$id_lang}', '" . PRINT_DOT_APP_ID_CUSTOMIZATION_NAME . "') ON DUPLICATE KEY UPDATE `id_lang` = '{$id_lang}', `name` = '" . PRINT_DOT_APP_ID_CUSTOMIZATION_NAME . "'");
             }
         }
 
@@ -387,28 +391,30 @@ class Print_Dot_App extends Module
 			$lname = addslashes($this->context->cookie->customer_lastname);
 
 			$cus = new Customer((int)$this->context->cookie->id_customer);
-			$cusInfo = $cus->getAddresses((int)Configuration::get('PS_LANG_DEFAULT'));
-			$cusInfo = $cusInfo[0];
-			$addr = "{$cusInfo['address1']}<br>";
-			if (!empty($cusInfo['address2'])) $addr .= "{$cusInfo['address2']}<br>";
-			$addr .= "{$cusInfo['city']} {$cusInfo['postcode']}<br>";
-			if (!empty($cusInfo['state'])) $addr .= "{$cusInfo['state']}<br>";
-			$addr .= "{$cusInfo['country']}";
+			$cusAddresses = $cus->getAddresses((int)Configuration::get('PS_LANG_DEFAULT'));
+			if (!empty($cusAddresses)) {
+				$cusInfo = $cusAddresses[0];
+				$addr = "{$cusInfo['address1']}<br>";
+				if (!empty($cusInfo['address2'])) $addr .= "{$cusInfo['address2']}<br>";
+				$addr .= "{$cusInfo['city']} {$cusInfo['postcode']}<br>";
+				if (!empty($cusInfo['state'])) $addr .= "{$cusInfo['state']}<br>";
+				$addr .= "{$cusInfo['country']}";
 
-			$addr = trim($addr);
+				$addr = trim($addr);
 
-			$pdaData['launchData'] = array(
-				'email' => $this->context->cookie->email,
-				'name' => $fname.' '.$lname,
-				'firstname' => $fname,
-				'lastname' => $lname,
-				'telephone' => $cusInfo['phone'],
-				'fax' => '',
-				'address' => addslashes($addr)
-			);
+				$pdaData['launchData'] = array(
+					'email' => $this->context->cookie->email,
+					'name' => $fname.' '.$lname,
+					'firstname' => $fname,
+					'lastname' => $lname,
+					'telephone' => $cusInfo['phone'],
+					'fax' => '',
+					'address' => addslashes($addr)
+				);
+			}
         }
         
-        $jsonEncodedPdaData = json_encode($pdaData);
+        $jsonEncodedPdaData = json_encode($pdaData, JSON_HEX_TAG | JSON_HEX_AMP);
 
         return '<script type="text/javascript">
         		var pdaData = ' . $jsonEncodedPdaData . ';
@@ -464,7 +470,7 @@ class Print_Dot_App extends Module
 			);
 
 			return '<script type="text/javascript">
-				window.printAppParams = '.json_encode($ppData).';
+				window.printAppParams = '.json_encode($ppData, JSON_HEX_TAG | JSON_HEX_AMP).';
 				document.addEventListener("DOMContentLoaded", function() {
 					if (typeof PrintAppClient !== "undefined") window.printAppInstance = new PrintAppClient(window.printAppParams);
 				});

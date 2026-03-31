@@ -1,5 +1,16 @@
 Migrated design-selection to Print.App admin
 
+Release 1.2.1 - 2026/03/31
+*   Fixed fatal error: undefined constant PRINT_DOT_APP_DESIGNS
+*   Fixed unserialize() crash when designs config is missing or empty
+*   Fixed incorrect logic in createCustomizationField guard condition
+*   Fixed SQL injection risk in customization_field_lang query
+*   Fixed potential crash when logged-in customer has no addresses
+*   Fixed XSS vulnerability in script tag JSON output
+*   Fixed unclosed <a> tags in admin displayCustomization templates
+*   Removed debug dump() call from displayCustomization.twig
+*   Synced config.xml version with module version
+
 Release 1.2.0 - 2023/11/27
 *   Completed migration of Design Assignment to Print.App Admin.
     Design assignment happens on the design page of print.App

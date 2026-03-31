@@ -14,8 +14,8 @@
 *
 * DISCLAIMER
 *
-* Do not edit or add to this file if you wish to upgrade PitchPrint to newer
-* versions in the future. If you wish to customize PitchPrint for your
+* Do not edit or add to this file if you wish to upgrade Print.App to newer
+* versions in the future. If you wish to customize Print.App for your
 * needs please refer to http://print.app for more information.
 *
 *  @author    Print.App <hello@print.app>
@@ -32,6 +32,7 @@ if (!defined('_PS_VERSION_'))
     define('PRINT_DOT_APP_SECRET_KEY', 'print_dot_app_SECRET_KEY');
 	define('PRINT_DOT_APP_CLIENT_RUN_JS', 'https://run.print.app');
 	define('PRINT_DOT_APP_CLIENT_JS', 'https://editor.print.app/js/client.js');
+    define('PRINT_DOT_APP_DESIGNS', 'print_dot_app_DESIGNS');
 
     
 class Print_Dot_App extends Module
@@ -39,7 +40,7 @@ class Print_Dot_App extends Module
     public function __construct() {
         $this->name = 'print_dot_app';
         $this->tab = 'front_office_features';
-        $this->version = '1.2.0';
+        $this->version = '1.2.1';
         $this->author = 'Print.App';
         $this->need_instance = 1;
         $this->ps_versions_compliancy = array('min' => '1.7.1.0', 'max' => _PS_VERSION_);

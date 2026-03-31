@@ -13,8 +13,8 @@
 *
 * DISCLAIMER
 *
-* Do not edit or add to this file if you wish to upgrade PitchPrint to newer
-* versions in the future. If you wish to customize PitchPrint for your
+* Do not edit or add to this file if you wish to upgrade Print.App to newer
+* versions in the future. If you wish to customize Print.App for your
 * needs please refer to http://print.app for more information.
 *
 *  @author    Print.App <hello@print.app>

@@ -60,10 +60,10 @@
                     {/foreach}
                 </td>
                 <td  class="border-top-0 text-muted">
-                   <div><a target="_blank" href="{$product.print_dot_app_customization.links.pdf}">Download PDF</div>
-                   <div><a target="_blank" href="{$product.print_dot_app_customization.links.png}">Download PNG</div>
-                   <div><a target="_blank" href="{$product.print_dot_app_customization.links.jpg}">Download JPEG</div>
-                   <div><a target="_blank" href="{$product.print_dot_app_customization.links.tiff}">Download TIFF</div>
+                   <div><a target="_blank" href="{$product.print_dot_app_customization.links.pdf}">Download PDF</a></div>
+                   <div><a target="_blank" href="{$product.print_dot_app_customization.links.png}">Download PNG</a></div>
+                   <div><a target="_blank" href="{$product.print_dot_app_customization.links.jpg}">Download JPEG</a></div>
+                   <div><a target="_blank" href="{$product.print_dot_app_customization.links.tiff}">Download TIFF</a></div>
                 </td>
               </tr>
             {/if}

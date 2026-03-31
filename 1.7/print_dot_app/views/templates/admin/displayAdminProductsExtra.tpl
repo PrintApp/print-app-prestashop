@@ -13,8 +13,8 @@
 *
 * DISCLAIMER
 *
-* Do not edit or add to this file if you wish to upgrade PitchPrint to newer
-* versions in the future. If you wish to customize PitchPrint for your
+* Do not edit or add to this file if you wish to upgrade Print.App to newer
+* versions in the future. If you wish to customize Print.App for your
 * needs please refer to http://print.app for more information.
 *
 *  @author    Print.App <hello@print.app>
@@ -24,7 +24,7 @@
 *}
 <div class="product-tab-content">
     <div style="padding: 20px" class="panel product-tab">
-        <h3>Assign PitchPrint Design</h3>
+        <h3>Assign Print.App Design</h3>
         <div class="alert alert-info">
             You can create your designs at <a target="_blank" href="https://admin.print.app/designs">https://admin.print.app/designs</a> 
         </div>
