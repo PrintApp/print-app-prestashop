@@ -1,5 +1,8 @@
 Migrated design-selection to Print.App admin
 
+Release 1.2.2 - 2026/04/01
+*   Fixed open_basedir restriction error when editing products in BO caused by leading slash in template path
+
 Release 1.2.1 - 2026/03/31
 *   Fixed fatal error: undefined constant PRINT_DOT_APP_DESIGNS
 *   Fixed unserialize() crash when designs config is missing or empty

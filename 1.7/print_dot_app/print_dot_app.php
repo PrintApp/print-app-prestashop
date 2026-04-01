@@ -40,7 +40,7 @@ class Print_Dot_App extends Module
     public function __construct() {
         $this->name = 'print_dot_app';
         $this->tab = 'front_office_features';
-        $this->version = '1.2.1';
+        $this->version = '1.2.2';
         $this->author = 'Print.App';
         $this->need_instance = 1;
         $this->ps_versions_compliancy = array('min' => '1.7.1.0', 'max' => _PS_VERSION_);
@@ -460,7 +460,7 @@ class Print_Dot_App extends Module
 				'pa_product_id' => $id_product,
                 'pa_module_uri' =>   __PS_BASE_URI__ . 'modules/print_dot_app'
             ]);
-			return $this->display(__FILE__, '/views/templates/admin/displayAdminProductsExtra.tpl');
+			return $this->display(__FILE__, 'views/templates/admin/displayAdminProductsExtra.tpl');
         } else
 			$this->context->controller->errors[] = Tools::displayError('Please first save this new product before assigning a design!');
     }
